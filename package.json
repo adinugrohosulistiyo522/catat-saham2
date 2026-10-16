@@ -1,0 +1,17 @@
+{
+  "name": "catatsaham-cloudflare-worker",
+  "private": true,
+  "type": "module",
+  "version": "5.0.0",
+  "description": "CatatSaham Cloudflare Worker with a root-level entrypoint and Kliktiva-style ASSETS/API adapter.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node --test test/*.test.mjs",
+    "check": "node scripts/check-package.mjs",
+    "check:all": "npm run check && npm test"
+  },
+  "devDependencies": {
+    "wrangler": "4.68.0"
+  }
+}

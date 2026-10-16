@@ -1,0 +1,17 @@
+CATATSAHAM v5 — PERBAIKAN KHUSUS ERROR ENTRYPOINT
+
+Screenshot build Anda menunjukkan service catat-saham1 dan pesan:
+The entry-point file at "src/index.js" was not found.
+
+v5 memperbaikinya dengan entrypoint index.js di ROOT. wrangler.jsonc main=index.js, bukan src/index.js. Nama Worker juga disamakan dengan catat-saham1 sesuai service pada screenshot.
+
+1. Ekstrak ZIP. Pastikan index.js dan wrangler.jsonc terlihat langsung di folder teratas.
+2. Di GitHub repository yang terhubung ke Worker catat-saham1, ganti file-file dengan ISI ZIP v5; jangan menaruhnya di subfolder pembungkus.
+3. Pastikan Root directory pada Workers Builds kosong (root repository). Build command boleh kosong. Deploy command: npx wrangler deploy.
+4. Commit/push, lalu buka Build logs dan pastikan tidak lagi ada pesan src/index.js not found.
+5. Setelah deploy succeeded, buka: https://catat-saham1.adinugrohosulistiyo.workers.dev/healthz
+   lalu: https://catat-saham1.adinugrohosulistiyo.workers.dev/api
+   Keduanya harus menampilkan workerVersion 5.0.0.
+6. Baru setelah itu isi env di service catat-saham1: APPS_SCRIPT_URL dan CATATSAHAM_API_KEY.
+
+CATATAN: kalau target Anda adalah Worker lama catat-saham (tanpa angka 1), jangan deploy paket ini ke catat-saham1. Nama service, wrangler.jsonc dan URL harus seluruhnya konsisten; sekarang screenshot build menunjukkan catat-saham1.
