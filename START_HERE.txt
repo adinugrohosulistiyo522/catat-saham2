@@ -1,17 +1,26 @@
-CATATSAHAM v5 — PERBAIKAN KHUSUS ERROR ENTRYPOINT
+CATATSAHAM v6 PATCH UNTUK REPOSITORY CATAT-SAHAM2 YANG FLAT
 
-Screenshot build Anda menunjukkan service catat-saham1 dan pesan:
-The entry-point file at "src/index.js" was not found.
+PENYEBAB BUILD GAGAL (terkonfirmasi dari repository):
+- GitHub root berisi index.html, index.js, api.js, Code.gs secara langsung; folder public/ dan functions/ tidak ada.
+- wrangler.jsonc v5 menunjuk ke ./public yang tidak ada.
+- index.js v5 mengimpor ./functions/api.js yang juga tidak ada.
 
-v5 memperbaikinya dengan entrypoint index.js di ROOT. wrangler.jsonc main=index.js, bukan src/index.js. Nama Worker juga disamakan dengan catat-saham1 sesuai service pada screenshot.
+CARA PASANG: buka repo adinugrohosulistiyo522/catat-saham2 dan upload isi patch ini langsung ke ROOT repository.
+REPLACE file: index.js, api.js, wrangler.jsonc, package.json.
+ADD file: build-assets.mjs, check-flat-layout.mjs, smoke.test.mjs.
+README.md dan START_HERE.txt boleh menggantikan yang lama.
+JANGAN menghapus atau mengganti index.html root yang sudah ada. Jangan upload file sebagai folder tambahan.
 
-1. Ekstrak ZIP. Pastikan index.js dan wrangler.jsonc terlihat langsung di folder teratas.
-2. Di GitHub repository yang terhubung ke Worker catat-saham1, ganti file-file dengan ISI ZIP v5; jangan menaruhnya di subfolder pembungkus.
-3. Pastikan Root directory pada Workers Builds kosong (root repository). Build command boleh kosong. Deploy command: npx wrangler deploy.
-4. Commit/push, lalu buka Build logs dan pastikan tidak lagi ada pesan src/index.js not found.
-5. Setelah deploy succeeded, buka: https://catat-saham1.adinugrohosulistiyo.workers.dev/healthz
-   lalu: https://catat-saham1.adinugrohosulistiyo.workers.dev/api
-   Keduanya harus menampilkan workerVersion 5.0.0.
-6. Baru setelah itu isi env di service catat-saham1: APPS_SCRIPT_URL dan CATATSAHAM_API_KEY.
+CLOUDFLARE WORKERS BUILDS:
+- Root directory: kosong
+- Build command: npm run build
+- Deploy command: npx wrangler deploy
+- Production branch: main
 
-CATATAN: kalau target Anda adalah Worker lama catat-saham (tanpa angka 1), jangan deploy paket ini ke catat-saham1. Nama service, wrangler.jsonc dan URL harus seluruhnya konsisten; sekarang screenshot build menunjukkan catat-saham1.
+Build command membuat dist/index.html dari index.html di root. Wrangler lalu upload hanya dist sebagai aset publik, bukan semua source/backend repository.
+
+Sesudah commit dan deployment sukses, buka:
+https://catat-saham2.adinugrohosulistiyo.workers.dev/healthz
+https://catat-saham2.adinugrohosulistiyo.workers.dev/api
+Target: JSON ok:true dengan workerVersion 6.0.0.
+Jangan ulang setup Apps Script hanya untuk mengatasi error build ini.

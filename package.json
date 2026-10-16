@@ -1,0 +1,18 @@
+{
+  "name": "catatsaham-cloudflare-worker",
+  "private": true,
+  "type": "module",
+  "version": "6.0.0",
+  "description": "Flat-root GitHub layout compatible CatatSaham Worker; prepares a safe dist asset folder from root index.html.",
+  "scripts": {
+    "build": "node build-assets.mjs",
+    "dev": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "test": "node --test smoke.test.mjs",
+    "check": "node check-flat-layout.mjs",
+    "check:all": "npm run check && npm test && npm run build"
+  },
+  "devDependencies": {
+    "wrangler": "4.68.0"
+  }
+}
